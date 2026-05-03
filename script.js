@@ -1,5 +1,6 @@
 var invoices=[],nextInvoiceNumber=100001,lineItemCount=0,editingIndex=-1;
 var STORAGE_KEY='styledwithshimmer_invoice_data_v1';
+var THEME_KEY='styledwithshimmer_theme_v1';
 function formatCurrency(n){return 'P'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function showToast(msg,type){var c=document.getElementById('toastContainer'),t=document.createElement('div');t.className='toast '+(type||'');var ic=type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':'fa-info-circle';var clr=type==='success'?'var(--emerald)':type==='error'?'var(--coral)':'var(--pink)';t.innerHTML='<i class="fas '+ic+'" style="color:'+clr+';font-size:16px;flex-shrink:0;"></i><span>'+msg+'</span>';c.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(30px)';t.style.transition='all 0.3s ease';setTimeout(function(){t.remove();},300);},3000);}
 function switchView(v){document.querySelectorAll('.view-section').forEach(function(e){e.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(e){e.classList.remove('active');});document.getElementById('view-'+v).classList.add('active');var n=document.querySelector('[data-view="'+v+'"]');if(n)n.classList.add('active');document.getElementById('sidebar').classList.remove('open');if(v==='dashboard')refreshDashboard();if(v==='tracking')refreshTracking();if(v==='invoices')refreshAllInvoices();}
@@ -44,6 +45,33 @@ function loadPersistedData(){
     }
   }catch(e){
     console.error('Failed to load saved data:',e);
+  }
+}
+function applyTheme(theme){
+  var t=(theme==='light')?'light':'dark';
+  document.body.setAttribute('data-theme',t);
+  var icon=document.getElementById('themeIcon');
+  var label=document.getElementById('themeLabel');
+  if(icon){
+    icon.className=t==='light'?'fas fa-moon':'fas fa-sun';
+  }
+  if(label){
+    label.textContent=t==='light'?'Dark Mode':'Light Mode';
+  }
+}
+function initTheme(){
+  var stored=null;
+  try{stored=localStorage.getItem(THEME_KEY);}catch(_e){stored=null;}
+  var preferred=stored||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+  applyTheme(preferred);
+  var btn=document.getElementById('themeToggle');
+  if(btn){
+    btn.addEventListener('click',function(){
+      var current=document.body.getAttribute('data-theme')||'dark';
+      var next=current==='dark'?'light':'dark';
+      applyTheme(next);
+      try{localStorage.setItem(THEME_KEY,next);}catch(_e){}
+    });
   }
 }
 
@@ -236,6 +264,7 @@ async function downloadInvoicePDF(idx){
 
 /* INIT */
 document.addEventListener('DOMContentLoaded',function(){
+  initTheme();
   loadPersistedData();
   document.getElementById('invNumber').value=String(nextInvoiceNumber).padStart(6,'0');
   document.getElementById('invDate').value=new Date().toISOString().split('T')[0];

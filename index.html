@@ -19,7 +19,13 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand"><div class="flex items-center gap-3"><div class="logo-circle"><img src="assets/image.jpg" alt="StyledWithShimmer"></div><div><div style="font-size:17px;font-weight:900;color:var(--fg);font-family:'Playfair Display',serif;letter-spacing:-0.3px;">StyledWithShimmer</div><div style="font-size:9px;color:var(--fg-muted);letter-spacing:2.5px;text-transform:uppercase;">Digital Printing Services</div></div></div></div>
   <nav style="padding:16px 0;flex:1;"><div style="padding:0 24px 10px;font-size:10px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Navigation</div><div class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')"><i class="fas fa-chart-pie"></i> Dashboard</div><div class="nav-item" data-view="tracking" onclick="switchView('tracking')"><i class="fas fa-clipboard-list"></i> Service Tracking</div><div class="nav-item" data-view="create" onclick="switchView('create')"><i class="fas fa-plus-circle"></i> Create Invoice</div><div class="nav-item" data-view="invoices" onclick="switchView('invoices')"><i class="fas fa-file-invoice"></i> All Invoices</div></nav>
-  <div style="padding:20px 24px;border-top:1px solid var(--border);"><div style="font-size:10px;color:var(--fg-muted);line-height:1.5;"><i class="fas fa-map-marker-alt" style="color:var(--pink);margin-right:3px;font-size:9px;"></i>T. Alonzo St. Poblacion,<br>Madridejos, Cebu</div></div>
+  <div style="padding:20px 24px;border-top:1px solid var(--border);">
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+      <i id="themeIcon" class="fas fa-sun"></i>
+      <span id="themeLabel">Light Mode</span>
+    </button>
+    <div style="font-size:10px;color:var(--fg-muted);line-height:1.5;margin-top:14px;"><i class="fas fa-map-marker-alt" style="color:var(--pink);margin-right:3px;font-size:9px;"></i>T. Alonzo St. Poblacion,<br>Madridejos, Cebu</div>
+  </div>
 </aside>
 <button class="mobile-toggle" id="mobileToggle" style="display:none;position:fixed;top:16px;left:16px;z-index:60;width:44px;height:44px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);color:var(--fg);align-items:center;justify-content:center;cursor:pointer;" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
 
